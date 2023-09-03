@@ -656,13 +656,8 @@ export async function GET(
   ];
 
   const filteredPosts = allPosts
-    .filter((post) =>
-      searchQuery
-        ? // Keeping it like this, just to showcase basic search logic
-          post.title.toLowerCase().includes(searchQuery.toLowerCase())
-        : true,
-    )
-    .filter((post) => (category ? post.categories.includes(category) : true));
+    .filter(SearchQueryFilter(searchQuery))
+    .filter(CategoryFilter(category));
 
   const paginatedPosts = chunk(filteredPosts, perPage)[page] || [];
 
@@ -670,6 +665,20 @@ export async function GET(
     data: paginatedPosts,
     total: filteredPosts.length,
   });
+}
+
+function SearchQueryFilter(searchQuery: string | null) {
+  if (!searchQuery) return () => true;
+
+  return (post: IPostDto) =>
+    // Keeping it like this, just to showcase basic search logic
+    post.title.toLowerCase().includes(searchQuery.toLowerCase());
+}
+
+function CategoryFilter(category: number | null) {
+  if (!category) return () => true;
+
+  return (post: IPostDto) => post.categories.includes(category);
 }
 
 function getQueryParamInt(
