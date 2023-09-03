@@ -9,13 +9,7 @@ interface PostCardProps {
   post: IPost;
 }
 
-export const PostCard = ({ post }: PostCardProps) => {
-  const referenceCategory = (categoryId: number) => ({
-    id: categoryId,
-    name: 'News',
-    slug: 'news',
-  });
-
+export const PostCard = async ({ post }: PostCardProps) => {
   return (
     <Link
       href={AppNavigation.postDetails(post.slug)}
@@ -34,14 +28,17 @@ export const PostCard = ({ post }: PostCardProps) => {
         <div className="p-4 flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center flex-wrap -mx-1 mb-2">
-              {post.categories.map(referenceCategory).map((category) => (
-                <span
-                  key={category.id}
-                  className="p-1 text-xs font-medium text-indigo-600 mr-2"
-                >
-                  {category.name}
-                </span>
-              ))}
+              {post.categories.map(
+                (category) =>
+                  category && (
+                    <span
+                      key={category.id}
+                      className="p-1 text-xs font-medium text-indigo-600 mr-2"
+                    >
+                      {category.name}
+                    </span>
+                  ),
+              )}
             </div>
 
             <div className="mb-5">

@@ -6,6 +6,7 @@ import { CategoryId } from '@/app/types';
 import { PostsApi } from '@/posts/api';
 import { PaginatedSelector } from '@/utils';
 import { PostSelector } from '@/posts/selectors';
+import { CategoriesApi } from '@/categories/api';
 
 interface HomePageProps {
   searchParams: {
@@ -21,12 +22,14 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const searchQuery = searchParams.s;
   const category = searchParams.category as CategoryId | undefined;
 
+  const categories = await CategoriesApi.listCategories();
+
   const paginatedPosts = await PostsApi.listPosts({
     page,
     perPage,
     s: searchQuery,
     category,
-  }).then(PaginatedSelector(PostSelector));
+  }).then(PaginatedSelector(PostSelector(categories)));
 
   return (
     <main
