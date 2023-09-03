@@ -42,7 +42,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           className="mb-10"
         />
 
-        <div className="flex justify-between items-center mb-5">
+        <div className="flex justify-between items-center mb-6">
           <div>
             {page > 0 && (
               <Link
