@@ -1,8 +1,16 @@
 import { NextResponse } from 'next/server';
-import { IPostDto, PostId } from '@/app/types';
+import { IPaginated, IPostDto, PostId } from '@/app/types';
+import { chunk } from 'lodash';
 
-export async function GET(request: Request): Promise<NextResponse<IPostDto[]>> {
-  const posts: IPostDto[] = [
+export async function GET(
+  request: Request,
+): Promise<NextResponse<IPaginated<IPostDto>>> {
+  const url = new URL(request.url);
+
+  const page = getQueryParamInt(url.searchParams, 'page', 0);
+  const perPage = getQueryParamInt(url.searchParams, 'perPage', 10);
+
+  const allPosts: IPostDto[] = [
     {
       id: 126 as PostId,
       slug: 'libero-exercitationem-cum-veniam',
@@ -645,5 +653,24 @@ export async function GET(request: Request): Promise<NextResponse<IPostDto[]>> {
     },
   ];
 
-  return NextResponse.json(posts);
+  const paginatedPosts = chunk(allPosts, perPage)[page] || [];
+
+  return NextResponse.json({
+    data: paginatedPosts,
+    total: allPosts.length,
+  });
+}
+
+function getQueryParamInt(
+  searchParams: URLSearchParams,
+  paramName: string,
+  defaultValue: number,
+) {
+  const queryParam = searchParams.get(paramName) || `${defaultValue}`;
+
+  const int = parseInt(queryParam, 10);
+
+  if (Number.isNaN(int)) return defaultValue;
+
+  return int;
 }
