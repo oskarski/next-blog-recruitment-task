@@ -9,6 +9,7 @@ export async function GET(
 
   const page = getQueryParamInt(url.searchParams, 'page', 0);
   const perPage = getQueryParamInt(url.searchParams, 'perPage', 10);
+  const searchQuery = url.searchParams.get('s');
 
   const allPosts: IPostDto[] = [
     {
@@ -653,11 +654,18 @@ export async function GET(
     },
   ];
 
-  const paginatedPosts = chunk(allPosts, perPage)[page] || [];
+  const filteredPosts = allPosts.filter((post) =>
+    searchQuery
+      ? // Keeping it like this, just to showcase basic search logic
+        post.title.toLowerCase().includes(searchQuery.toLowerCase())
+      : true,
+  );
+
+  const paginatedPosts = chunk(filteredPosts, perPage)[page] || [];
 
   return NextResponse.json({
     data: paginatedPosts,
-    total: allPosts.length,
+    total: filteredPosts.length,
   });
 }
 
