@@ -1,3 +1,6 @@
+import { CategoryId } from '@/app/types/categories';
+import { IPaginationQueryDto } from '@/app/types/pagination';
+
 export type PostId = number & { readonly __type: unique symbol };
 
 export interface IPostAuthorDto {
@@ -15,4 +18,9 @@ export interface IPostDto {
   readonly createdAt: string;
   readonly minutesToRead: number;
   readonly author: IPostAuthorDto;
+}
+
+export interface IPostsListQueryDto extends IPaginationQueryDto {
+  readonly s?: string;
+  readonly category?: CategoryId;
 }
