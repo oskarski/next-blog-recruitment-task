@@ -38,30 +38,32 @@ export const PostCard = () => {
         />
       </div>
 
-      <div className="p-4">
-        <div className="flex items-center flex-wrap -mx-1 mb-2">
-          {post.categories.map(referenceCategory).map((category) => (
+      <div className="p-4 flex-1 flex flex-col justify-between">
+        <div>
+          <div className="flex items-center flex-wrap -mx-1 mb-2">
+            {post.categories.map(referenceCategory).map((category) => (
+              <Link
+                key={category.id}
+                href={AppNavigation.categoryDetails(category.slug)}
+                className="p-1 text-xs font-medium text-indigo-600 mr-2"
+              >
+                {category.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mb-5">
             <Link
-              key={category.id}
-              href={AppNavigation.categoryDetails(category.slug)}
-              className="p-1 text-xs font-medium text-indigo-600 mr-2"
+              href={AppNavigation.postDetails(post.slug)}
+              className="inline-block mb-3 text-gray-900 hover:text-gray-600"
             >
-              {category.name}
+              <h3 className="text-lg font-semibold leading-6">{post.title}</h3>
             </Link>
-          ))}
-        </div>
 
-        <div className="mb-5">
-          <Link
-            href={AppNavigation.postDetails(post.slug)}
-            className="inline-block mb-3 text-gray-900 hover:text-gray-600"
-          >
-            <h3 className="text-lg font-semibold leading-6">{post.title}</h3>
-          </Link>
-
-          <p className="line-clamp-3 text-sm leading-6 text-gray-600">
-            {post.excerpt}
-          </p>
+            <p className="line-clamp-3 text-sm leading-6 text-gray-600">
+              {post.excerpt}
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center">
