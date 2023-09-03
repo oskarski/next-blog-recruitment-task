@@ -1,11 +1,10 @@
-import { IPaginated, IPostsListQueryDto } from '@/app/types';
-import { IPost } from '@/posts/read-model';
+import { IPaginated, IPostDto, IPostsListQueryDto } from '@/app/types';
 import { env } from '@/utils';
 
 export class PostsApi {
   static async listPosts(
     queryDto: IPostsListQueryDto,
-  ): Promise<IPaginated<IPost>> {
+  ): Promise<IPaginated<IPostDto>> {
     const searchParams = new URLSearchParams();
 
     searchParams.set('page', `${queryDto.page}`);
