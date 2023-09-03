@@ -2,25 +2,13 @@ import Image from 'next/image';
 import { AppNavigation } from '@/navigation';
 import Link from 'next/link';
 import { formatDate } from '@/utils';
+import { IPost } from '@/posts/read-model';
 
-export const PostCard = () => {
-  const post = {
-    id: 126,
-    slug: 'libero-exercitationem-cum-veniam',
-    title: 'Libero exercitationem cum veniam',
-    excerpt:
-      'Donec ut orci porttitor, sagittis mauris nec, semper metus. Vestibulum eget justo viverra, lobortis est in, pretium enim.',
-    imageUrl: 'https://picsum.photos/id/237/800/600',
-    categories: [7, 8],
-    createdAt: new Date(),
-    minutesToRead: 6,
-    author: {
-      name: 'Michael Foster',
-      imageUrl:
-        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  };
+interface PostCardProps {
+  post: IPost;
+}
 
+export const PostCard = ({ post }: PostCardProps) => {
   const referenceCategory = (categoryId: number) => ({
     id: categoryId,
     name: 'News',
@@ -80,8 +68,8 @@ export const PostCard = () => {
             <h5 className="font-semibold text-gray-900">{post.author.name}</h5>
 
             <p className="text-gray-500">
-              <time dateTime={formatDate(post.createdAt, 'YYYY-MM-DD')}>
-                {formatDate(post.createdAt, 'M D, YYYY')}
+              <time dateTime={formatDate(post.createdAtDate, 'YYYY-MM-DD')}>
+                {formatDate(post.createdAtDate, 'M D, YYYY')}
               </time>{' '}
               · {post.minutesToRead} min read
             </p>
