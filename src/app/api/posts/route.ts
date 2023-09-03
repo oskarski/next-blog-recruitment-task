@@ -10,6 +10,7 @@ export async function GET(
   const page = getQueryParamInt(url.searchParams, 'page', 0);
   const perPage = getQueryParamInt(url.searchParams, 'perPage', 10);
   const searchQuery = url.searchParams.get('s');
+  const category = getQueryParamInt(url.searchParams, 'category', null);
 
   const allPosts: IPostDto[] = [
     {
@@ -654,12 +655,14 @@ export async function GET(
     },
   ];
 
-  const filteredPosts = allPosts.filter((post) =>
-    searchQuery
-      ? // Keeping it like this, just to showcase basic search logic
-        post.title.toLowerCase().includes(searchQuery.toLowerCase())
-      : true,
-  );
+  const filteredPosts = allPosts
+    .filter((post) =>
+      searchQuery
+        ? // Keeping it like this, just to showcase basic search logic
+          post.title.toLowerCase().includes(searchQuery.toLowerCase())
+        : true,
+    )
+    .filter((post) => (category ? post.categories.includes(category) : true));
 
   const paginatedPosts = chunk(filteredPosts, perPage)[page] || [];
 
@@ -673,7 +676,17 @@ function getQueryParamInt(
   searchParams: URLSearchParams,
   paramName: string,
   defaultValue: number,
-) {
+): number;
+function getQueryParamInt(
+  searchParams: URLSearchParams,
+  paramName: string,
+  defaultValue: null,
+): null;
+function getQueryParamInt(
+  searchParams: URLSearchParams,
+  paramName: string,
+  defaultValue: number | null,
+): number | null {
   const queryParam = searchParams.get(paramName) || `${defaultValue}`;
 
   const int = parseInt(queryParam, 10);
