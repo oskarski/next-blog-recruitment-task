@@ -127,6 +127,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             <PostCard key={post.id} post={post} />
           ))}
         </div>
+
+        {paginatedPosts.data.length === 0 && (
+          <p className="text-lg leading-8 text-gray-600">
+            Sorry, we could not find what you were looking for :(
+          </p>
+        )}
       </div>
     </main>
   );
