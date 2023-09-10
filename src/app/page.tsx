@@ -65,9 +65,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               name="category"
               id="category"
               defaultValue={searchParams.category}
-              className={classNames('w-full mb-3', 'sm:w-auto sm:ml-4 sm:mb-0')}
+              className={classNames('w-full mb-3', 'sm:w-52 sm:ml-4 sm:mb-0')}
             >
-              <option value="">All</option>
+              <option value="">All Categories</option>
 
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -119,6 +119,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <div
           className={classNames(
             'mx-auto grid grid-cols-1 gap-x-8 gap-y-16',
+            'sm:grid-cols-2',
             'lg:mx-0 lg:max-w-none lg:grid-cols-3',
           )}
         >
