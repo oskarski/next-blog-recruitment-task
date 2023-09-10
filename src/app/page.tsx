@@ -1,4 +1,4 @@
-import { PageSection } from '@/components';
+import { PageSection, Select } from '@/components';
 import classNames from 'classnames';
 import { PostCard } from '@/posts';
 import Link from 'next/link';
@@ -46,22 +46,42 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         />
 
         <form action="" className="mb-6">
-          <div className="flex itemx-center">
+          <div className="sm:flex sm:itemx-center">
             <input
               type="search"
               name="s"
               id="s"
               className={classNames(
-                'block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 outline-none',
+                'block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 outline-none mb-3',
                 'placeholder:text-gray-400',
                 'focus:ring-2 focus:ring-inset focus:ring-indigo-600',
-                'sm:text-sm sm:leading-6',
+                'sm:text-sm sm:leading-6 sm:mb-0',
               )}
               placeholder="Search posts by title ..."
               defaultValue={searchParams.s}
             />
 
-            <button className="bg-indigo-600 text-white py-2.5 px-3.5 ml-4 rounded text-base">
+            <Select
+              name="category"
+              id="category"
+              defaultValue={searchParams.category}
+              className={classNames('w-full mb-3', 'sm:w-auto sm:ml-4 sm:mb-0')}
+            >
+              <option value="">All</option>
+
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </Select>
+
+            <button
+              className={classNames(
+                'w-full bg-indigo-600 text-white py-2.5 px-3.5 rounded text-base',
+                'sm:ml-4 sm:w-auto',
+              )}
+            >
               Search
             </button>
           </div>
