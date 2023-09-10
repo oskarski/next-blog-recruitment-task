@@ -45,6 +45,28 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           className="mb-10"
         />
 
+        <form action="" className="mb-6">
+          <div className="flex itemx-center">
+            <input
+              type="search"
+              name="s"
+              id="s"
+              className={classNames(
+                'block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 outline-none',
+                'placeholder:text-gray-400',
+                'focus:ring-2 focus:ring-inset focus:ring-indigo-600',
+                'sm:text-sm sm:leading-6',
+              )}
+              placeholder="Search posts by title ..."
+              defaultValue={searchParams.s}
+            />
+
+            <button className="bg-indigo-600 text-white py-2.5 px-3.5 ml-4 rounded text-base">
+              Search
+            </button>
+          </div>
+        </form>
+
         <div className="flex justify-between items-center mb-6">
           <div>
             {page > 0 && (
